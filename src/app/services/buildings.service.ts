@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { map } from "rxjs/operators";
 import { Observable } from "rxjs";
 import { House } from "../models/building.model";
 
@@ -16,6 +17,8 @@ export class BuildingsService {
   constructor(private http: HttpClient) {}
 
   getBuildings(): Observable<House[]> {
-    return this.http.get<House[]>(`${this.serverApi}`, this.httpOptions);
+    return this.http
+      .get(`${this.serverApi}`, this.httpOptions)
+      .pipe(map(result => result["houses"]));
   }
 }

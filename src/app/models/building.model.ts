@@ -1,5 +1,5 @@
 export class House {
-  coordinates: Coordinates;
+  coords: Coordinates;
   params: Params;
   street: string;
 }
