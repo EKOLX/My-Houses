@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { BuildingsService } from "./services/buildings.service";
 import * as logic from "./lib/logic";
-import { House, ListType } from "./models/building.model";
+import { House, ListType, CoordinatesModel } from "./models/building.model";
 import { HouseViewModel } from "./models/buildingView.model";
 
 @Component({
@@ -11,6 +11,7 @@ import { HouseViewModel } from "./models/buildingView.model";
 })
 export class AppComponent implements OnInit {
   address: string = "Eberswalder Straße 55";
+  coords: CoordinatesModel;
   cost: number = 50000000;
   houses: House[];
   housesModified: House[];
@@ -23,6 +24,8 @@ export class AppComponent implements OnInit {
   constructor(private buildingsService: BuildingsService) {}
 
   ngOnInit(): void {
+    this.coords = logic.getCoordinates(this.address);
+
     this.buildingsService.getBuildings().subscribe(
       (result: House[]) => {
         this.houses = result;
@@ -40,16 +43,17 @@ export class AppComponent implements OnInit {
     if (event.option.selected) {
       const id = event.option.value.id;
       const house = this.houses.find(h => h.id === id);
-      const distance = logic.calculateDistance(house);
+      const distance = logic.calculateDistanceFrom(this.coords, house);
 
       this.housesModified = this.houses.filter(
-        h => logic.calculateDistance(h) >= distance
+        h => logic.calculateDistanceFrom(this.coords, h) >= distance
       );
 
       this.loadHousesExcept(ListType.Distance);
       this.status = `Selected house distance from ${this.address} is ${event.option.value.displayName}.`;
     } else {
       this.loadHousesExcept();
+      this.status = "Nothing selected.";
     }
   }
 
@@ -71,7 +75,10 @@ export class AppComponent implements OnInit {
     if (listType != ListType.Distance) {
       this.housesByDistance = this.housesModified
         .map(house => {
-          return { id: house.id, distance: logic.calculateDistance(house) };
+          return {
+            id: house.id,
+            distance: logic.calculateDistanceFrom(this.coords, house)
+          };
         })
         .sort((a, b) => a.distance - b.distance)
         .map(house => {

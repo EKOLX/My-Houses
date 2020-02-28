@@ -1,13 +1,12 @@
 export class House {
   id: number;
-  coords: Coordinates;
+  coords: CoordinatesModel;
   params: Params;
   street: string;
 }
 
-export class Coordinates {
-  lat: number;
-  lon: number;
+export class CoordinatesModel {
+  constructor(public lat: number, public lon: number) {}
 }
 
 export class Params {
