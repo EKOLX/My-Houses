@@ -1,0 +1,27 @@
+.container {
+  padding: 15px;
+}
+
+.content {
+  display: table;
+  margin: auto;
+  width: 100%;
+}
+
+mat-selection-list {
+  display: table-cell;
+  width: auto;
+  border: 1px solid cornflowerblue;
+}
+
+mat-form-field {
+  width: 200px;
+  margin: 10px;
+}
+
+p {
+  color: teal;
+  span {
+    color: initial;
+  }
+}

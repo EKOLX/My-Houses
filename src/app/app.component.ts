@@ -13,6 +13,9 @@ export class AppComponent implements OnInit {
   housesByDistance: string[];
   housesByMoreThan5: string[];
   housesByNotAllData: string[];
+  status: string = "Nothing selected.";
+  cost: number = 50000000;
+  areListsVisible: boolean = false;
 
   constructor(private buildingsService: BuildingsService) {}
 
@@ -34,6 +37,8 @@ export class AppComponent implements OnInit {
           .filter(house => logic.hasAllData(house))
           .map(house => `${house.street.trim()}`)
           .sort();
+
+        this.areListsVisible = true;
       },
       error => console.error(error)
     );

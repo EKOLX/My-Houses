@@ -1,22 +1,32 @@
-<mat-form-field>
-  <mat-label></mat-label>
-  <input matInput type="text" id="address" placeholder="address" [(ngModel)]="address" />
-</mat-form-field>
+<div class="container">
 
-<mat-selection-list>
-  <mat-list-option *ngFor="let house of housesByDistance">
-    {{ house }}
-  </mat-list-option>
-</mat-selection-list>
-<mat-selection-list>
-  <mat-list-option *ngFor="let house of housesByMoreThan5">
-    {{ house }}
-  </mat-list-option>
-</mat-selection-list>
-<mat-selection-list>
-  <mat-list-option *ngFor="let house of housesByNotAllData">
-    {{ house }}
-  </mat-list-option>
-</mat-selection-list>
+  <mat-form-field>
+    <mat-label>Address</mat-label>
+    <input matInput type="text" id="address" placeholder="street name" [(ngModel)]="address" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Cost</mat-label>
+    <input matInput type="number" id="cost" placeholder="cost of house" [(ngModel)]="cost" />
+  </mat-form-field>
 
-<p>Status</p>
+  <div class="content" *ngIf="areListsVisible">
+    <mat-selection-list>
+      <mat-list-option *ngFor="let house of housesByDistance">
+        {{ house }}
+      </mat-list-option>
+    </mat-selection-list>
+    <mat-selection-list>
+      <mat-list-option *ngFor="let house of housesByMoreThan5">
+        {{ house }}
+      </mat-list-option>
+    </mat-selection-list>
+    <mat-selection-list>
+      <mat-list-option *ngFor="let house of housesByNotAllData">
+        {{ house }}
+      </mat-list-option>
+    </mat-selection-list>
+  </div>
+
+  <p>Status: <span>{{status}}</span></p>
+
+</div>
