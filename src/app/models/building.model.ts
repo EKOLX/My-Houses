@@ -5,8 +5,8 @@ export class House {
 }
 
 export class Coordinates {
-  latitude: number;
-  longitude: number;
+  lat: number;
+  lon: number;
 }
 
 export class Params {

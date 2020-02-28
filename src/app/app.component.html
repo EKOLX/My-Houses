@@ -1,12 +1,6 @@
 <mat-form-field>
   <mat-label></mat-label>
-  <input
-    matInput
-    type="text"
-    id="address"
-    placeholder="address"
-    [(ngModel)]="address"
-  />
+  <input matInput type="text" id="address" placeholder="address" [(ngModel)]="address" />
 </mat-form-field>
 
 <mat-selection-list>
@@ -20,7 +14,7 @@
   </mat-list-option>
 </mat-selection-list>
 <mat-selection-list>
-  <mat-list-option *ngFor="let house of housesByNoData">
+  <mat-list-option *ngFor="let house of housesByNotAllData">
     {{ house }}
   </mat-list-option>
 </mat-selection-list>

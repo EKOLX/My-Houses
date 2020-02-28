@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { BuildingsService } from "./services/buildings.service";
 import { House } from "./models/building.model";
+import * as logic from "./lib/logic";
 
 @Component({
   selector: "app-root",
@@ -11,35 +12,30 @@ export class AppComponent implements OnInit {
   address: string = "Eberswalder Straße 55";
   housesByDistance: string[];
   housesByMoreThan5: string[];
-  housesByNoData: string[];
+  housesByNotAllData: string[];
 
   constructor(private buildingsService: BuildingsService) {}
 
   ngOnInit(): void {
     this.buildingsService.getBuildings().subscribe(
       (result: House[]) => {
-        this.housesByDistance = result.map(house => {
-          const { coords } = house;
-          return `${this.calculateDistance(
-            coords.latitude ? coords.latitude : 0,
-            coords.longitude ? coords.longitude : 0
-          )} unit`;
-        });
-        this.housesByMoreThan5 = result.map(
-          house => `${house.params ? house.params.rooms : "none"} rooms`
-        );
-        this.housesByNoData = result.map(house => `${house.street}`);
+        this.housesByDistance = result
+          .map(house => logic.calculateDistance(house))
+          .sort((a, b) => a - b)
+          .map(distance => `${distance} unit`);
+
+        this.housesByMoreThan5 = result
+          .filter(house => logic.hasRoomsMoreThan(5, house))
+          .map(house => house.params.rooms)
+          .sort((a, b) => a - b)
+          .map(rooms => `${rooms} rooms`);
+
+        this.housesByNotAllData = result
+          .filter(house => logic.hasAllData(house))
+          .map(house => `${house.street.trim()}`)
+          .sort();
       },
       error => console.error(error)
     );
-  }
-
-  private calculateDistance(latitude, longitude): number {
-    // TODO: Calculate distance by formula
-    return latitude - longitude;
-  }
-
-  private hasRoomsMoreThan(count: number, value: number): boolean {
-    return value >= count;
   }
 }
