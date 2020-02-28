@@ -10,19 +10,20 @@
   </mat-form-field>
 
   <div class="content" *ngIf="areListsVisible">
-    <mat-selection-list>
-      <mat-list-option *ngFor="let house of housesByDistance">
-        {{ house }}
+
+    <mat-selection-list (selectionChange)="housesByDistanceChanged($event)">
+      <mat-list-option *ngFor="let house of housesByDistance" [value]="house">
+        {{ house.displayName }}
       </mat-list-option>
     </mat-selection-list>
-    <mat-selection-list>
-      <mat-list-option *ngFor="let house of housesByMoreThan5">
-        {{ house }}
+    <mat-selection-list (selectionChange)="housesByMoreThanNChanged($event)">
+      <mat-list-option *ngFor="let house of housesByMoreThanN">
+        {{ house.displayName }}
       </mat-list-option>
     </mat-selection-list>
-    <mat-selection-list>
+    <mat-selection-list (selectionChange)="housesByNotAllDataChanged($event)">
       <mat-list-option *ngFor="let house of housesByNotAllData">
-        {{ house }}
+        {{ house.displayName }}
       </mat-list-option>
     </mat-selection-list>
   </div>

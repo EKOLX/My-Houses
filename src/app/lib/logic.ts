@@ -20,3 +20,10 @@ export const hasAllData = (house: House): boolean => {
 
   return false;
 };
+
+export const generateIds = (houses: House[]): void => {
+  let id: number = 0;
+  for (let house of houses) {
+    house.id = ++id;
+  }
+};
